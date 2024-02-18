@@ -30,6 +30,28 @@ router.get('/:id', async(req,res) =>{
     }
 })
 
+// update a product
+
+router.put('/:id', async (req,res)=> {
+    try{
+        const {id} = req.params
+        const products = await Product.findById(id)
+        // const product = await Product.findByIdAndUpdate(id)
+        if(!products){
+            res.status(404).send({message:"no product found"})
+        }else{
+             const product = await Product.findByIdAndUpdate(id,req.body)
+
+            res.status(200).send({message:"Product is updated successfully",product})
+           
+        }
+         
+    }catch(err){
+        res.status(500).send({message:"something went wrong",err})
+
+    }
+})
+
 // delete a product
 router.delete('/:id', async (req,res)=> {
     try{
