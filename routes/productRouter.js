@@ -29,6 +29,23 @@ router.get('/:id', async(req,res) =>{
       res.status(500).send({message:"something went wrong",err})
     }
 })
+
+// delete a product
+router.delete('/:id', async (req,res)=> {
+    try{
+        const {id} = req.params
+        const product = await Product.findByIdAndDelete(id)
+        if(!product){
+            res.status(404).send({message:"no product found"})
+        }else{
+            res.status(200).send({message:"Product is deleted successfully"})
+        }
+    }catch(err){
+        res.status(500).send({message:"something went wrong",err})
+
+    }
+})
+
 // post a product
 router.post('/', async (req, res) => {
   const newProduct = new Product({
